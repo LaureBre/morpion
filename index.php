@@ -54,7 +54,6 @@
     if ($_SESSION['tour'] >= 9) {
       unset($_GET);
       unset($_SESSION['coups']);
-      $_SESSION['tour'] = 0;
     }
 
     if (isset($_GET['case'])) {
@@ -115,8 +114,15 @@
       ?>' value=''>
 
       <?php
+
       if ($bravo) {
         echo "<h1>Le joueur " . $joueur . " a gagné !</h1>";
+        unset($_GET);
+        unset($_SESSION['coups']);
+        $_SESSION['tour'] = 0;
+      }
+      elseif ($_SESSION['tour'] == 9) {
+        echo "<h1>Perdu</h1>";
         unset($_GET);
         unset($_SESSION['coups']);
         $_SESSION['tour'] = 0;
