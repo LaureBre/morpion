@@ -1,5 +1,10 @@
-# Programming in PHP : Naval battle
+# Programming in PHP : Tic Tac Toe
 
-## Exercise
+## ~ Practice ~
 
-Code a naval battle using PHP langage, player versus player.
+> Code a tic tac toe game using PHP langage only, player versus player.
+
+
+## [Play it!](https://laurebre.github.io/morpion/)
+
+*Hint : **You have to validate your move with the bottom button.** *
