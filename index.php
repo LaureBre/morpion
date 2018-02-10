@@ -88,17 +88,17 @@
 
 
          foreach ($gagne as $key => $value) {
+           $compte = 0;
            foreach ($gagne[$key] as $trio) {
-             if ($_SESSION['coups'][$trio] == $joueur) {
+             if ( isset($_SESSION['coups'][$trio]) && ($_SESSION['coups'][$trio] == $joueur) ) {
                $compte++;
              }
              if ($compte == 3) {
                $bravo = true;
              }
            }
-           $compte = 0;
          }
-         if ($bravo) {
+         if (isset($bravo)) {
            echo "reset"; // class = 'reset' => bouton reset
          }
          elseif ($_SESSION['tour'] > 9) {
@@ -119,7 +119,7 @@
         unset($_SESSION['bouton']);
       }
 
-      if ($bravo) {
+      if (isset($bravo)) {
         echo "<h1>Le joueur " . $joueur . " a gagné !</h1>";
         reinitialise();
       }
