@@ -33,7 +33,7 @@
                    array(2, 4, 6));
 
     if (!isset($_SESSION['tour'])) {
-      $_SESSION['tour'] = 1;
+      $_SESSION['tour'] = 0;
       $_SESSION['bouton'] = 'rond';
     }
     elseif ($_SESSION['tour']%2 == 0) {
@@ -44,23 +44,16 @@
       $joueur = 1;
       $_SESSION['bouton'] = 'croix';
     }
-
-    if (isset($_GET['case'])) {
-      $_SESSION['tour']++;
-    }
-    // if ($_SESSION['tour'] == 10) {
-    //   echo ("<p>Fin de la partie, merci d'avoir joué</p>");
-    // }
-    if ($_SESSION['tour'] >= 9) {
-      unset($_GET);
-      unset($_SESSION['coups']);
-    }
-
-    if (isset($_GET['case'])) {
+// echo $_SESSION['tour'];
+    if (isset($_GET['case']) || ($_SESSION['tour'] == 0)) {
       $noCase = $_GET['case'];
       unset($_GET);
+      $_SESSION['tour']++;
+    }
+
+    if (isset($noCase)) {
       if ( (isset($_SESSION['coups'][$noCase])) && ($_SESSION['coups'][$noCase] <> 0) ) {
-        unset($_GET);
+        unset($noCase);
       }
       else {
         $_SESSION['coups'][$noCase] = $joueur;
@@ -93,6 +86,7 @@
 
      <input type='submit' name='submit' class='<?php
 
+
          foreach ($gagne as $key => $value) {
            foreach ($gagne[$key] as $trio) {
              if ($_SESSION['coups'][$trio] == $joueur) {
@@ -105,27 +99,33 @@
            $compte = 0;
          }
          if ($bravo) {
+           echo "reset"; // class = 'reset' => bouton reset
+         }
+         elseif ($_SESSION['tour'] > 9) {
            echo "reset";
          }
          else {
-           echo $_SESSION['bouton'];
+             echo $_SESSION['bouton'];
          }
 
       ?>' value=''>
 
       <?php
 
+      function reinitialise() {
+        unset($_GET);
+        unset($_SESSION['coups']);
+        $_SESSION['tour'] = 0;
+        unset($_SESSION['bouton']);
+      }
+
       if ($bravo) {
         echo "<h1>Le joueur " . $joueur . " a gagné !</h1>";
-        unset($_GET);
-        unset($_SESSION['coups']);
-        $_SESSION['tour'] = 0;
+        reinitialise();
       }
-      elseif ($_SESSION['tour'] == 9) {
+      elseif ($_SESSION['tour'] > 9) {
         echo "<h1>Perdu</h1>";
-        unset($_GET);
-        unset($_SESSION['coups']);
-        $_SESSION['tour'] = 0;
+        reinitialise();
       }
       ?>
    </div>
